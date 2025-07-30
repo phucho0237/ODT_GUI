@@ -22,13 +22,13 @@ namespace OfficeDeploymentTool
                 var officeVersion = GetSelectedOfficeVersion();
                 if (string.IsNullOrEmpty(officeVersion))
                 {
-                    MessageBox.Show("Vui lòng chọn phiên bản Office hợp lệ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(this, "Vui lòng chọn phiên bản Office hợp lệ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 if (officeVersion == "2016")
                 {
-                    MessageBox.Show("Phiên bản Office 2016 hiện tại không còn được hỗ trợ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(this, "Phiên bản Office 2016 hiện tại không còn được hỗ trợ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -70,12 +70,12 @@ namespace OfficeDeploymentTool
                 });
 
                 AppendLog("Cài đặt hoàn tất.");
-                MessageBox.Show("Đã cài đặt xong!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(this, "Đã cài đặt xong!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 AppendLog("Lỗi xảy ra: " + ex.Message);
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "Lỗi: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
