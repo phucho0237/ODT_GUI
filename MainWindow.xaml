@@ -1,99 +1,117 @@
 ﻿<Window x:Class="OfficeDeploymentTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OfficeDeploymentTool"
-        mc:Ignorable="d"
         Title="Office Deployment Tool (ODT) GUI Version"
-        Height="500"
-        Width="500"
-        ResizeMode="NoResize"
-        WindowStyle="SingleBorderWindow">
-    <Grid Margin="10">
+        Height="580" Width="500"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" FontSize="12" VerticalAlignment="Top" Margin="0,0,0,10">
-            <GroupBox.Header>Chọn phiên bản Office</GroupBox.Header>
-            <UniformGrid Rows="1" Columns="4" Margin="5">
-                <RadioButton x:Name="rbOffice2016" Content="Office 2016" GroupName="OfficeVersions" HorizontalAlignment="Center" Tag="2016"/>
-                <RadioButton x:Name="rbOffice2019" Content="Office 2019" GroupName="OfficeVersions" HorizontalAlignment="Center" Tag="2019"/>
-                <RadioButton x:Name="rbOffice2021" Content="Office 2021" GroupName="OfficeVersions" HorizontalAlignment="Center" Tag="2021"/>
-                <RadioButton x:Name="rbOffice365" Content="Office 365" GroupName="OfficeVersions" HorizontalAlignment="Center" Tag="365"/>
-            </UniformGrid>
-        </GroupBox>
-
-        <Grid Grid.Row="1" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" Text="  Ngôn ngữ:" VerticalAlignment="Center" FontSize="12" />
-            <ComboBox x:Name="comboLanguage" Grid.Column="1" Height="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="White" BorderBrush="Gray" Foreground="Black">
-                <ComboBoxItem Content="en_US (khuyến khích)" IsSelected="True" Tag="en_US"/>
-                <ComboBoxItem Content="vi_VN" Tag="vi_VN"/>
-            </ComboBox>
-        </Grid>
-
-        <GroupBox Grid.Row="2" Header="Chọn ứng dụng" FontSize="12" VerticalAlignment="Top" Margin="0,0,0,10">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
+            <Grid Margin="10">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <CheckBox x:Name="cbAccess" Grid.Row="0" Grid.Column="0" Content="Access" Margin="0,0,10,5" Tag="Access"/>
-                <CheckBox x:Name="cbOneNote" Grid.Row="1" Grid.Column="0" Content="OneNote" Margin="0,0,10,5" Tag="OneNote"/>
-                <CheckBox x:Name="cbPowerpoint" Grid.Row="2" Grid.Column="0" Content="Powerpoint" Margin="0,0,10,5" Tag="Powerpoint"/>
-                <CheckBox x:Name="cbTeams" Grid.Row="3" Grid.Column="0" Content="Teams" Margin="0,0,10,0" Tag="Teams"/>
+                <GroupBox Header="Chọn phiên bản Office" FontSize="12" Margin="0,0,0,10" Grid.Row="0">
+                    <UniformGrid Rows="1" Columns="4" Margin="5">
+                        <RadioButton x:Name="rbOffice2016" Content="Office 2016" GroupName="OfficeVersions" Tag="2016"/>
+                        <RadioButton x:Name="rbOffice2019" Content="Office 2019" GroupName="OfficeVersions" Tag="2019"/>
+                        <RadioButton x:Name="rbOffice2021" Content="Office 2021" GroupName="OfficeVersions" Tag="2021"/>
+                        <RadioButton x:Name="rbOffice365" Content="Office 365" GroupName="OfficeVersions" Tag="365"/>
+                    </UniformGrid>
+                </GroupBox>
 
-                <CheckBox x:Name="cbExcel" Grid.Row="0" Grid.Column="1" Content="Excel" Margin="0,0,0,5" Tag="Excel"/>
-                <CheckBox x:Name="cbOutlook" Grid.Row="1" Grid.Column="1" Content="Outlook" Margin="0,0,0,5" Tag="Outlook"/>
-                <CheckBox x:Name="cbPublisher" Grid.Row="2" Grid.Column="1" Content="Publisher" Margin="0,0,0,5" Tag="Publisher"/>
-                <CheckBox x:Name="cbWord" Grid.Row="3" Grid.Column="1" Content="Word" Margin="0,0,0,0" Tag="Word"/>
-            </Grid>
-        </GroupBox>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="Ngôn ngữ:" VerticalAlignment="Center" FontSize="12" Margin="0,0,5,0"/>
+                    <ComboBox x:Name="comboLanguage" MinWidth="100" Margin="0,0,15,0">
+                        <ComboBoxItem Content="en_US" IsSelected="True" Tag="en_US"/>
+                        <ComboBoxItem Content="vi_VN" Tag="vi_VN"/>
+                    </ComboBox>
 
-        <StackPanel Grid.Row="3" VerticalAlignment="Top" >
-            <GroupBox Header="Sản phầm riêng" FontSize="12" Margin="0,0,0,10">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Kiến trúc:" VerticalAlignment="Center" FontSize="12" Margin="0,0,5,0"/>
+                    <ComboBox x:Name="comboArch" Width="100">
+                        <ComboBoxItem Content="32-bit" Tag="32"/>
+                        <ComboBoxItem Content="64-bit" IsSelected="True" Tag="64"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <GroupBox Header="Chọn ứng dụng" FontSize="12" Grid.Row="2" Margin="0,0,0,10">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <CheckBox x:Name="cbAccess" Grid.Row="0" Grid.Column="0" Content="Access" Margin="0,0,10,5" Tag="Access"/>
+                        <CheckBox x:Name="cbOneNote" Grid.Row="1" Grid.Column="0" Content="OneNote" Margin="0,0,10,5" Tag="OneNote"/>
+                        <CheckBox x:Name="cbPowerpoint" Grid.Row="2" Grid.Column="0" Content="Powerpoint" Margin="0,0,10,5" Tag="Powerpoint"/>
+                        <CheckBox x:Name="cbTeams" Grid.Row="3" Grid.Column="0" Content="Teams" Margin="0,0,10,0" Tag="Teams"/>
+
+                        <CheckBox x:Name="cbExcel" Grid.Row="0" Grid.Column="1" Content="Excel" Margin="0,0,0,5" Tag="Excel"/>
+                        <CheckBox x:Name="cbOutlook" Grid.Row="1" Grid.Column="1" Content="Outlook" Margin="0,0,0,5" Tag="Outlook"/>
+                        <CheckBox x:Name="cbPublisher" Grid.Row="2" Grid.Column="1" Content="Publisher" Margin="0,0,0,5" Tag="Publisher"/>
+                        <CheckBox x:Name="cbWord" Grid.Row="3" Grid.Column="1" Content="Word" Margin="0,0,0,0" Tag="Word"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Sản phẩm riêng (tùy chọn)" FontSize="12" Grid.Row="3" Margin="0,0,0,10">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox x:Name="cbProject" Grid.Column="0" Content="Project" Margin="0,0,10,0" Tag="Project"/>
+                        <CheckBox x:Name="cbVisio" Grid.Column="1" Content="Visio" Tag="Visio"/>
+                    </Grid>
+                </GroupBox>
+
+                <Grid Grid.Row="4" Margin="0,0,0,10" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="120" />
                     </Grid.RowDefinitions>
 
-                    <CheckBox x:Name="cbProject" Grid.Row="0" Grid.Column="0" Content="Project" Margin="0,0,10,5" Tag="Project"/>
-                    <CheckBox x:Name="cbVisio" Grid.Row="0" Grid.Column="1" Content="Visio" Margin="0,0,0,5" Tag="Visio"/>
+                    <Button x:Name="btnConfirm" Content="Xác nhận" Width="120" Height="30" HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="0" />
+
+                    <TextBox x:Name="LogTextBox"
+                             Grid.Row="1"
+                             VerticalScrollBarVisibility="Auto"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             FontSize="11"
+                             Background="White"
+                             BorderBrush="Gray"
+                             Foreground="Black"
+                             HorizontalAlignment="Stretch" />
                 </Grid>
-            </GroupBox>
+            </Grid>
+        </ScrollViewer>
 
-            <Button x:Name="btnConfirm" Content="Xác nhận" Width="100" Height="30" HorizontalAlignment="Center" />
-        </StackPanel>
-
-        <Grid Grid.Row="4" Background="White" Margin="0,10,0,0" Height="30">
-            <Rectangle Height="1" Fill="LightGray" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-            <TextBlock x:Name="StatusTextBlock" Text="Trạng thái: Sẵn sàng"
-               FontSize="11" Foreground="Black"
-               VerticalAlignment="Center" Margin="5,0,0,0" />
-        </Grid>
+        <Border Grid.Row="1" Background="White" Height="30" Margin="10,0">
+            <DockPanel>
+                <Rectangle Height="1" Fill="LightGray" VerticalAlignment="Top" DockPanel.Dock="Top"/>
+                <TextBlock Text="Luca"
+                           FontSize="11" Foreground="Black"
+                           VerticalAlignment="Center"
+                           Margin="5,0,0,0" />
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

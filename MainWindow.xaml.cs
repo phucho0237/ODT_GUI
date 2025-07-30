@@ -22,28 +22,36 @@ namespace OfficeDeploymentTool
                 var officeVersion = GetSelectedOfficeVersion();
                 if (string.IsNullOrEmpty(officeVersion))
                 {
-                    MessageBox.Show("Vui lòng chọn phiên bản Office hợp lệ.", "Thông báo");
+                    MessageBox.Show("Vui lòng chọn phiên bản Office hợp lệ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 if (officeVersion == "2016")
                 {
-                    MessageBox.Show("Phiên bản Office 2016 hiện tại không còn được hỗ trợ.", "Thông báo");
+                    MessageBox.Show("Phiên bản Office 2016 hiện tại không còn được hỗ trợ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                StatusTextBlock.Text = "Trạng thái: Đang tạo file cấu hình...";
+                AppendLog("Bắt đầu tạo file cấu hình...");
 
                 var languageId = GetSelectedLanguage();
                 var selectedApps = GetSelectedApps();
 
-                var xml = await Task.Run(() =>
-                    GenerateConfigurationXml(officeVersion, languageId, selectedApps));
+                string selectedArch = ((ComboBoxItem?)comboArch.SelectedItem)?.Tag?.ToString() ?? "64";
 
+                AppendLog($"Phiên bản: Office {officeVersion}");
+                AppendLog($"Ngôn ngữ: {languageId}, Kiến trúc: {selectedArch}");
+                AppendLog($"Ứng dụng đã chọn: {string.Join(", ", selectedApps)}");
+
+                var xml = await Task.Run(() =>
+                    GenerateConfigurationXml(officeVersion, languageId, selectedApps, selectedArch));
+
+                AppendLog("Đang tải Office Deployment Tool (setup.exe)...");
                 await DownloadOdtAndSaveXmlAsync(xml);
 
-                StatusTextBlock.Text = "Trạng thái: Đang cài đặt...";
+                AppendLog("Đã lưu Configuration.xml và setup.exe vào C:\\Office");
 
+                AppendLog("Đang tiến hành cài đặt Office...");
                 await Task.Run(() =>
                 {
                     var process = new System.Diagnostics.Process
@@ -61,12 +69,12 @@ namespace OfficeDeploymentTool
                     process.WaitForExit();
                 });
 
-                StatusTextBlock.Text = "Trạng thái: Đã cài đặt xong.";
-                MessageBox.Show("Đã cài đặt xong Office!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                AppendLog("Cài đặt hoàn tất.");
+                MessageBox.Show("Đã cài đặt xong!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                StatusTextBlock.Text = "Trạng thái: Lỗi khi cài đặt!";
+                AppendLog("Lỗi xảy ra: " + ex.Message);
                 MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -88,7 +96,7 @@ namespace OfficeDeploymentTool
             xml.Save(xmlPath);
         }
 
-        private XDocument GenerateConfigurationXml(string officeVersion, string languageId, string[] selectedApps)
+        private XDocument GenerateConfigurationXml(string officeVersion, string languageId, string[] selectedApps, string arch)
         {
             var (channel, productIdMain, pidKeyMain, productIdVisio, pidKeyVisio, productIdProject, pidKeyProject) = officeVersion switch
             {
@@ -104,7 +112,7 @@ namespace OfficeDeploymentTool
 
             var configuration = new XElement("Configuration", new XAttribute("ID", System.Guid.NewGuid().ToString()));
             var add = new XElement("Add",
-                new XAttribute("OfficeClientEdition", "64"),
+                new XAttribute("OfficeClientEdition", arch),
                 new XAttribute("Channel", channel)
             );
 
@@ -169,6 +177,15 @@ namespace OfficeDeploymentTool
             };
 
             return apps.Where(a => a.Item1?.IsChecked == true).Select(a => a.Item2).ToArray();
+        }
+
+        private void AppendLog(string message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                LogTextBox.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}\n");
+                LogTextBox.ScrollToEnd();
+            });
         }
     }
 }
