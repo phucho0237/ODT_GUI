@@ -40,7 +40,7 @@ namespace OfficeDeploymentTool
                 string selectedArch = ((ComboBoxItem?)comboArch.SelectedItem)?.Tag?.ToString() ?? "64";
 
                 AppendLog($"Phiên bản: Office {officeVersion}");
-                AppendLog($"Ngôn ngữ: {languageId}, Kiến trúc: {selectedArch}");
+                AppendLog($"Ngôn ngữ: {languageId}, Kiến trúc: {selectedArch}-bit");
                 AppendLog($"Ứng dụng đã chọn: {string.Join(", ", selectedApps)}");
 
                 var xml = await Task.Run(() =>
