@@ -86,14 +86,30 @@ namespace OfficeDeploymentTool
             string odtPath = Path.Combine(folderPath, "setup.exe");
             string xmlPath = Path.Combine(folderPath, "Configuration.xml");
 
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
+            try { 
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
 
-            using var client = new HttpClient();
-            var data = await client.GetByteArrayAsync(odtUrl);
-            await File.WriteAllBytesAsync(odtPath, data);
+                using var client = new HttpClient();
 
-            xml.Save(xmlPath);
+                if (!File.Exists(odtPath))
+                {
+                    AppendLog("Đang tải xuống setup.exe...");
+                    var data = await client.GetByteArrayAsync(odtUrl);
+                    await File.WriteAllBytesAsync(odtPath, data);
+                    AppendLog("Tải xuống thành công");
+                }
+                else
+                {
+                    AppendLog("setup.exe đã tồn tại, bỏ qua...");
+                }
+
+                xml.Save(xmlPath);
+                AppendLog("Đã lưu Configuration.xml");
+            }
+            catch (Exception ex) {
+                AppendLog($"Không thể tải xuống hoặc lưu file: {ex.Message}");
+            }
         }
 
         private XDocument GenerateConfigurationXml(string officeVersion, string languageId, string[] selectedApps, string arch)
