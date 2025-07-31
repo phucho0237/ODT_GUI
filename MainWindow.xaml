@@ -1,7 +1,7 @@
 ﻿<Window x:Class="OfficeDeploymentTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Office Deployment Tool (ODT) GUI Version"
+        Title="Office Deployment Tool (ODT)"
         Height="580" Width="500"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen">
@@ -104,13 +104,15 @@
             </Grid>
         </ScrollViewer>
 
-        <Border Grid.Row="1" Background="White" Height="30" Margin="10,0">
-            <DockPanel>
+        <Border Grid.Row="1" Background="#F8F8F8" Height="30" BorderBrush="LightGray" BorderThickness="1,0,0,0">
+            <DockPanel LastChildFill="True">
                 <Rectangle Height="1" Fill="LightGray" VerticalAlignment="Top" DockPanel.Dock="Top"/>
-                <TextBlock Text="Luca"
-                           FontSize="11" Foreground="Black"
+                <TextBlock Text="© 2025 Như Phúc. All right reserved."
+                           FontSize="11" Foreground="Gray"
                            VerticalAlignment="Center"
-                           Margin="5,0,0,0" />
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Margin="0" />
             </DockPanel>
         </Border>
     </Grid>
